@@ -1,0 +1,368 @@
+{
+  "forensic_timeline": {
+    "case_info": {
+      "case_id": "RANSOMWARE-2024-001",
+      "attack_type": "Ransomware (Conti variant)",
+      "target": "TechCorp Industries",
+      "discovery_date": "2024-03-15T08:30:00Z",
+      "timeline_period": {
+        "start": "2024-03-01T00:00:00Z",
+        "end": "2024-03-15T23:59:59Z"
+      }
+    },
+    "events": [
+      {
+        "id": "E001",
+        "timestamp": "2024-03-01T14:23:15Z",
+        "phase": "reconnaissance",
+        "activity": "Spear-phishing email campaign initiated",
+        "source": "185.243.112.45",
+        "target": "hr-team@techcorp.com",
+        "evidence": [
+          "Email headers",
+          "Malicious attachment (Quarterly_Benefits_Update.docx)",
+          "SMTP logs"
+        ],
+        "mitre_attack": ["T1566.001"],
+        "severity": "medium",
+        "description": "Attackers send targeted phishing emails to HR department with malicious Word document"
+      },
+      {
+        "id": "E002",
+        "timestamp": "2024-03-01T16:45:22Z",
+        "phase": "initial_access",
+        "activity": "Employee opens malicious document",
+        "source": "jane.smith@techcorp.com",
+        "target": "WORKSTATION-HR-05",
+        "evidence": [
+          "Process creation logs",
+          "PowerShell execution",
+          "Network beacon"
+        ],
+        "mitre_attack": ["T1204.002", "T1059.001"],
+        "severity": "high",
+        "description": "User Jane Smith executes macro in malicious document, triggering PowerShell payload"
+      },
+      {
+        "id": "E003",
+        "timestamp": "2024-03-01T16:47:33Z",
+        "phase": "execution",
+        "activity": "Malware dropper execution",
+        "source": "WORKSTATION-HR-05",
+        "target": "cdn-updates.net",
+        "evidence": [
+          "HTTP GET request",
+          "File creation in %TEMP%",
+          "Process injection"
+        ],
+        "mitre_attack": ["T1055", "T1105"],
+        "severity": "high",
+        "description": "First-stage payload downloads additional components and injects into legitimate processes"
+      },
+      {
+        "id": "E004",
+        "timestamp": "2024-03-04T02:15:41Z",
+        "phase": "persistence",
+        "activity": "Scheduled task creation",
+        "source": "WORKSTATION-HR-05",
+        "target": "Local system",
+        "evidence": [
+          "Task Scheduler logs",
+          "Registry modifications",
+          "Service installation"
+        ],
+        "mitre_attack": ["T1053.005", "T1547.001"],
+        "severity": "medium",
+        "description": "Malware establishes persistence through scheduled tasks and registry modifications"
+      },
+      {
+        "id": "E005",
+        "timestamp": "2024-03-05T09:32:18Z",
+        "phase": "credential_access",
+        "activity": "Memory dumping and credential harvesting",
+        "source": "Malicious process",
+        "target": "lsass.exe (PID 624)",
+        "evidence": [
+          "Object access events",
+          "Memory patterns",
+          "Process access logs"
+        ],
+        "mitre_attack": ["T1003.001"],
+        "severity": "critical",
+        "description": "Attackers dump LSASS memory to extract plaintext credentials and NTLM hashes"
+      },
+      {
+        "id": "E006",
+        "timestamp": "2024-03-06T13:45:07Z",
+        "phase": "privilege_escalation",
+        "activity": "Local privilege escalation",
+        "source": "Exploit code",
+        "target": "Windows Error Reporting service",
+        "evidence": [
+          "System event logs",
+          "Error reporting dumps",
+          "Token modifications"
+        ],
+        "mitre_attack": ["T1068"],
+        "severity": "critical",
+        "description": "Exploitation of CVE-2023-36874 to gain SYSTEM-level privileges"
+      },
+      {
+        "id": "E007",
+        "timestamp": "2024-03-08T10:22:31Z",
+        "phase": "discovery",
+        "activity": "Network and Active Directory enumeration",
+        "source": "WORKSTATION-HR-05",
+        "target": "DC-PRIMARY (192.168.1.5)",
+        "evidence": [
+          "LDAP queries",
+          "Network scanning",
+          "PowerShell commands"
+        ],
+        "mitre_attack": ["T1018", "T1087.002"],
+        "severity": "medium",
+        "description": "Comprehensive network reconnaissance and AD enumeration using built-in tools"
+      },
+      {
+        "id": "E008",
+        "timestamp": "2024-03-09T15:17:44Z",
+        "phase": "lateral_movement",
+        "activity": "RDP connection to file server",
+        "source": "WORKSTATION-HR-05",
+        "target": "FILESERVER-01 (192.168.1.10)",
+        "evidence": [
+          "RDP login events",
+          "Network authentication",
+          "File access logs"
+        ],
+        "mitre_attack": ["T1021.001"],
+        "severity": "high",
+        "description": "Lateral movement using compromised admin credentials via RDP"
+      },
+      {
+        "id": "E009",
+        "timestamp": "2024-03-10T08:30:12Z",
+        "phase": "lateral_movement",
+        "activity": "Domain controller compromise",
+        "source": "Compromised admin account",
+        "target": "DC-PRIMARY (192.168.1.5)",
+        "evidence": [
+          "Kerberos logs",
+          "NTDS.dit access",
+          "Golden ticket creation"
+        ],
+        "mitre_attack": ["T1558.001", "T1003.003"],
+        "severity": "critical",
+        "description": "Complete domain compromise through DC access and golden ticket generation"
+      },
+      {
+        "id": "E010",
+        "timestamp": "2024-03-12T20:45:18Z",
+        "phase": "collection",
+        "activity": "Data discovery and staging",
+        "source": "Multiple compromised systems",
+        "target": "File servers and databases",
+        "evidence": [
+          "Large file transfers",
+          "Database queries",
+          "Storage access logs"
+        ],
+        "mitre_attack": ["T1560", "T1005"],
+        "severity": "high",
+        "description": "Systematic collection of sensitive data including financial records and customer information"
+      },
+      {
+        "id": "E011",
+        "timestamp": "2024-03-13T02:15:33Z",
+        "phase": "exfiltration",
+        "activity": "Data exfiltration to external servers",
+        "source": "Internal staging servers",
+        "target": "5.149.248.73",
+        "evidence": [
+          "Network packet captures",
+          "Proxy logs",
+          "Bandwidth anomalies"
+        ],
+        "mitre_attack": ["T1041", "T1048.003"],
+        "severity": "critical",
+        "description": "Exfiltration of 2.3TB of sensitive data to attacker-controlled infrastructure"
+      },
+      {
+        "id": "E012",
+        "timestamp": "2024-03-15T05:30:00Z",
+        "phase": "impact",
+        "activity": "Ransomware staging and distribution",
+        "source": "Compromised file shares",
+        "target": "All network systems",
+        "evidence": [
+          "SMB file distribution",
+          "Group Policy deployment",
+          "Binary replication"
+        ],
+        "mitre_attack": ["T1486", "T1105"],
+        "severity": "critical",
+        "description": "Ransomware binary distributed across network using compromised file shares and Group Policy"
+      },
+      {
+        "id": "E013",
+        "timestamp": "2024-03-15T06:00:00Z",
+        "phase": "impact",
+        "activity": "Coordinated ransomware execution",
+        "source": "Scheduled execution",
+        "target": "150+ workstations and servers",
+        "evidence": [
+          "Process creation events",
+          "File encryption timeline",
+          "Ransom note deployment"
+        ],
+        "mitre_attack": ["T1486", "T1490"],
+        "severity": "critical",
+        "description": "Simultaneous ransomware execution across all compromised systems, beginning file encryption"
+      },
+      {
+        "id": "E014",
+        "timestamp": "2024-03-15T06:15:00Z",
+        "phase": "impact",
+        "activity": "System impact and service disruption",
+        "source": "Ransomware processes",
+        "target": "Critical business systems",
+        "evidence": [
+          "File extension changes",
+          "Database corruption",
+          "System error logs"
+        ],
+        "mitre_attack": ["T1486", "T1489"],
+        "severity": "critical",
+        "description": "Critical systems become unavailable, files encrypted with .conti extension"
+      },
+      {
+        "id": "E015",
+        "timestamp": "2024-03-15T08:30:00Z",
+        "phase": "discovery_response",
+        "activity": "Attack discovery and incident response",
+        "source": "IT staff",
+        "target": "Incident response team",
+        "evidence": [
+          "User reports",
+          "Help desk tickets",
+          "Monitoring alerts"
+        ],
+        "mitre_attack": [],
+        "severity": "high",
+        "description": "Ransomware attack discovered by IT staff, incident response procedures initiated"
+      }
+    ],
+    "threat_actors": {
+      "primary_group": "Conti Ransomware",
+      "attribution_confidence": "high",
+      "tactics": [
+        "Spear-phishing",
+        "Credential harvesting",
+        "Lateral movement",
+        "Data exfiltration",
+        "Ransomware deployment"
+      ],
+      "infrastructure": {
+        "c2_servers": [
+          "185.243.112.45",
+          "5.149.248.73"
+        ],
+        "domains": [
+          "techc0rp-industries.com",
+          "cdn-updates.net",
+          "windows-security-update.net"
+        ]
+      }
+    },
+    "impact_assessment": {
+      "systems_affected": 155,
+      "data_exfiltrated_tb": 2.3,
+      "downtime_hours": 336,
+      "estimated_cost_usd": 10500000,
+      "recovery_time_days": 21,
+      "affected_users": 500,
+      "affected_customers": 50000
+    },
+    "iocs": {
+      "file_hashes": {
+        "md5": [
+          "5d41402abc4b2a76b9719d911017c592",
+          "7d865e959b2466918c9863afca942d0f",
+          "098f6bcd4621d373cade4e832627b4f6"
+        ],
+        "sha256": [
+          "a1b2c3d4e5f6789012345678901234567890abcdef",
+          "b2c3d4e5f6789012345678901234567890abcdef12",
+          "c3d4e5f6789012345678901234567890abcdef1234"
+        ]
+      },
+      "network": {
+        "ip_addresses": [
+          "185.243.112.45",
+          "5.149.248.73"
+        ],
+        "domains": [
+          "techc0rp-industries.com",
+          "cdn-updates.net",
+          "windows-security-update.net"
+        ]
+      },
+      "registry_keys": [
+        "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\WindowsSecurityUpdater",
+        "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\WindowsSecurityUpdateCheck"
+      ],
+      "file_paths": [
+        "%TEMP%\\svchost_update.exe",
+        "%APPDATA%\\Microsoft\\Windows\\security_update.exe",
+        "C:\\Windows\\System32\\drivers\\winsec.sys"
+      ]
+    },
+    "recovery_phases": [
+      {
+        "phase": "immediate_response",
+        "duration_hours": 4,
+        "key_activities": [
+          "Incident declaration",
+          "Team activation",
+          "Initial containment"
+        ]
+      },
+      {
+        "phase": "containment_stabilization",
+        "duration_hours": 20,
+        "key_activities": [
+          "Network isolation",
+          "System containment",
+          "Evidence preservation"
+        ]
+      },
+      {
+        "phase": "investigation",
+        "duration_days": 7,
+        "key_activities": [
+          "Forensic analysis",
+          "Timeline reconstruction",
+          "Attribution assessment"
+        ]
+      },
+      {
+        "phase": "recovery_restoration",
+        "duration_days": 14,
+        "key_activities": [
+          "System rebuilding",
+          "Data restoration",
+          "Security hardening"
+        ]
+      },
+      {
+        "phase": "lessons_learned",
+        "duration_days": 9,
+        "key_activities": [
+          "Post-incident review",
+          "Process improvement",
+          "Security enhancement"
+        ]
+      }
+    ]
+  }
+}
