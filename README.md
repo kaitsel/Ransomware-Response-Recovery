@@ -10,6 +10,13 @@ This project will provide a comprehensive forensic timeline and analysis of a ra
 - Timeline: September 22 - October 27, 2025 (subject to change)
 - Industry: National Health Service
 
+## Infrustructure
+
+- Oracle VirtualBox
+- Windows 11 (64-bit)
+
+!! delete later - email is (employee) mikemcaddams@outlook.com password P@ssw0rd!, (security admin) andrewbertrude@putlook.com password admin102
+
 ## Repository Contents
 
 - **[forensic_timeline.md](forensic_timeline.md)** - A record of events, including timestamps.
