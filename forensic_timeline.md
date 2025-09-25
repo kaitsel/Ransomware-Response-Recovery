@@ -24,7 +24,7 @@ September 24, 2025, 19:04 GMT - Email Reconnaissance
    - Malicious document VBA code
  
 September 25, 2025, 11:37 GMT - Initial Compromise
-- Activity: Employee andrewbertrude@outlook.com opens a malicious document
+- Activity: Employee andrewbertrude@outlook.com opens malicious document
 - System: Windows 11 (ENTER IP ADDRESS HERE)
 - Evidence:
    - Macro execution in Microsoft Word
