@@ -14,6 +14,7 @@ The attackers initiated an attack by sending a phishing email containing a Word 
 
 - T1566.001 - Spearphishing Attachment
 - T1598 - Phishing for Information
+- T1564.007 - VBA Stomping
 
 ### Social Engineering Techniques
 
