@@ -30,8 +30,9 @@ The attackers initiated an attack by sending a phishing email containing a Word 
 
 ## Phase 2: Execution and Persistence 
 
+### Attack Description 
 
-
+After the attacker gains the initial access, they must then use techniques to keep it as systems are unpredictable with the inevitable restarts, shutdowns, or credential changes. 
 
 
 (to lock the files for the later phase)
