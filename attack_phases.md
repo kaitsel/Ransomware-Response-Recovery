@@ -10,7 +10,7 @@ This document outlines the six phases mapped out in the MITRE ATT&CK framework, 
 
 The attackers initiated an attack by sending a phishing email containing a Word document with hidden VBA macros within. Once entry is made, malicious actors could spend days or even weeks on the network before revealing themselves to the company. This was done in the Co-op and M&S attacks this year.
 
-### MITRE ATT&CK Mapping
+### MITRE ATT&CK Mapping (ADD MORE INFO!!)
 
 - T1566.001 - Spearphishing Attachment
 - T1598 - Phishing for Information
@@ -32,7 +32,27 @@ The attackers initiated an attack by sending a phishing email containing a Word 
 
 ### Attack Description 
 
-After the attacker gains the initial access, they must then use techniques to keep it as systems are unpredictable with the inevitable restarts, shutdowns, or credential changes. 
+After the attacker gains initial access, they must then use techniques to maintain it, as systems are unpredictable due to inevitable restarts, shutdowns, or credential changes. One way to ensure persistent access is by modifying the Registry keys that store the operating system's configuration settings. 
+
+### MITRE ATT&CK Mapping
+
+- T1547.014 - Active Setup
+  - Adds Registry key to Active Setup of the local machine, executed when the user logs in.
+- T1037.002 - Logout Hook
+  - Utilises a plist file as a pointer to a script and executes upon user logging out.
+- T1546.005 - Trap
+  - Executes malicious content when triggered by an interrupt signal.
+ 
+### Implementation
+
+- PowerShell Script: Creates new registry keys and points to malware.exe
+- Registry Editor: Contains all keys, including the added malicious ones
+- Living off the Land tactic - Uses legitimate Windows tools for easier execution
+- Masquerading - Disguised as authentic Windows system files, prolongs persistence
+
+## Phase 3: Privilege Escalation and Credential Access
+
+(MAY NEED TO CREATE PATIENT FILES AGAIN - GOT LOST)
 
 
 (to lock the files for the later phase)
