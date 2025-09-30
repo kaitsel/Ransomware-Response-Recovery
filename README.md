@@ -24,3 +24,6 @@ This project will provide a comprehensive forensic timeline and analysis of a ra
 - **[evidence_artefacts.md](evidence_artefacts.md)** - Catalogue of forensic artefacts and evidence collected during attack phases.
 - **[recovery_recommendations.md](recovery_recommendations.md)** - A researched overview of the recommended initial response and controls.
 
+## Sources
+
+- MITRE ATT&CK (2025) https://attack.mitre.org/
