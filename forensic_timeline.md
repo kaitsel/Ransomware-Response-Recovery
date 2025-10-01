@@ -1,11 +1,10 @@
 # Ransomware Attack Forensic Timeline
 
 ## Case Overview
-
-Attack Type: Ransomware
-Target: NHS Customer Data
-Discovery Date: (Enter later)
-Timeline Period: September 24, 2025, to (enter later)
+- **Attack Type:** Ransomware
+- **Target:** NHS Patient Data
+- **Discovery Date:** (Enter later)
+- **Timeline Period:** September 24, 2025, to (enter later)
 
 ## Executive Summary
 
