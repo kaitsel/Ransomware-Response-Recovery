@@ -27,8 +27,3 @@ September 25, 2025, 11:37 GMT - Initial Compromise
 - System: Windows 11 (10.0.2.15)
 - Evidence:
    - Macro execution in Microsoft Word
-
-### Phase 2: Execution and Persistence (Days -? to -?)
-
-#try regripper and powershell to check + see if event logs are active - yes use, no recovery technique
-
