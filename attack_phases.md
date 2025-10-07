@@ -10,11 +10,14 @@ This document outlines the six phases mapped out in the MITRE ATT&CK framework, 
 
 The attackers initiated an attack by sending a phishing email containing a Word document with hidden VBA macros within. Once entry is made, malicious actors could spend days or even weeks on the network before revealing themselves to the company. This was done in the Co-op and M&S attacks this year.
 
-### MITRE ATT&CK Mapping (ADD MORE INFO!!)
+### MITRE ATT&CK Mapping
 
 - T1566.001 - Spearphishing Attachment
-- T1598 - Phishing for Information
+   - The malware is sent through an attachment (Microsoft Office docs / executable PDFs / archived files), relying on user execution.
+- T1589.002 - Email Addresses
+   - Adversaries will use public-facing emails that are readily available.
 - T1564.007 - VBA Stomping
+   - Replaces VBA source code with benign data.
 
 ### Social Engineering Techniques
 
@@ -51,6 +54,29 @@ After the attacker gains initial access, they must then use techniques to mainta
 - Masquerading - Disguised as authentic Windows system files, prolongs persistence
 
 ## Phase 3: Privilege Escalation and Credential Access
+
+### Attack Description
+
+The attacker will escalate their privileges to gain greater access to the network. This will allow the adversary to gain access to employee and customer credentials that may be stored on the system. In the case of Co-Op and M&S, millions of people had active accounts with them, which included information such as their name, date of birth, home address, and online order history. Credit card details that were saved were also at risk of having been leaked. In this case scenario, patient and employee records will be the primary focus for access.
+
+### MITRE ATT&CK Mapping
+
+- T1068 - Exploitation for Privilege Escalation
+   - Software vulnerabilities are taken advantage of to achieve higher levels of access.
+- T1003.001 - LSASS Memory?
+- T1558.001 - Golden Ticket?
+
+### Privilege Escalation
+
+(enter stuff here)
+
+### Credential Harvesting 
+
+(not sure what I can do here)
+
+### Advanced Techniques
+
+(give it a go ig)
 
 (MAY NEED TO CREATE PATIENT FILES AGAIN - GOT LOST)
 
