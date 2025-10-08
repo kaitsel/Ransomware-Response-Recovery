@@ -68,15 +68,15 @@ The attacker will escalate their privileges to gain greater access to the networ
 
 ### Privilege Escalation
 
-(enter stuff here)
+(enter stuff here) [try to exploit the cve and see if i can modify the security tokens]
 
 ### Credential Harvesting 
 
-(not sure what I can do here)
+(not sure what I can do here) [lsass dumping, and registry passwords??]
 
 ### Advanced Techniques
 
-(give it a go ig)
+(give it a go ig) [golden ticket creation maybe???]
 
 (MAY NEED TO CREATE PATIENT FILES AGAIN - GOT LOST)
 
