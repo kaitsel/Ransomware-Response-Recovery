@@ -63,22 +63,18 @@ The attacker will escalate their privileges to gain greater access to the networ
 
 - T1068 - Exploitation for Privilege Escalation
    - Software vulnerabilities are taken advantage of to achieve higher levels of access.
-- T1003.001 - LSASS Memory?
-- T1558.001 - Golden Ticket?
+- T1003.001 - LSASS Memory
 
 ### Privilege Escalation
 
-(enter stuff here) [try to exploit the cve and see if i can modify the security tokens]
+- CVE-2023-366874 (7.8 score): A reporting service error occurs when it comes to privilege elevation, allowing malicious actors to increase their privilege in a system with no indication being made to other users, including admins of the server.
 
 ### Credential Harvesting 
 
-(not sure what I can do here) [lsass dumping, and registry passwords??]
-
-### Advanced Techniques
-
-(give it a go ig) [golden ticket creation maybe???]
-
-(MAY NEED TO CREATE PATIENT FILES AGAIN - GOT LOST)
+- LSASS Dumping: By using the task manager, credentials were extracted from the system memory.
+- Mimikatz: Created a log to collect passwords stored in memory in plaintext.
+- Registry: Extracted stored passwords from the registry through the Command Prompt.
+- Hash Extraction: Displayed the password hashes in the security account manager database.
 
 
 (to lock the files for the later phase)
