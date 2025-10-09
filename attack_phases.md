@@ -65,11 +65,11 @@ The attacker will escalate their privileges to gain greater access to the networ
    - Software vulnerabilities are taken advantage of to achieve higher levels of access.
 - T1003.001 - LSASS Memory
 
-### Privilege Escalation
+### Privilege Escalation Vulnerabillity 
 
 - CVE-2023-366874 (7.8 score): A reporting service error occurs when it comes to privilege elevation, allowing malicious actors to increase their privilege in a system with no indication being made to other users, including admins of the server.
 
-### Credential Harvesting 
+### Implementation 
 
 - LSASS Dumping: By using the task manager, credentials were extracted from the system memory.
 - Mimikatz: Created a log to collect passwords stored in memory in plaintext.
