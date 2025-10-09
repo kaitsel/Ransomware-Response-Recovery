@@ -50,8 +50,8 @@ After the attacker gains initial access, they must then use techniques to mainta
 
 - PowerShell Script: Creates new registry keys and points to malware.exe
 - Registry Editor: Contains all keys, including the added malicious ones
-- Living off the Land tactic - Uses legitimate Windows tools for easier execution
-- Masquerading - Disguised as authentic Windows system files, prolongs persistence
+- Living off the Land tactic: Uses legitimate Windows tools for easier execution
+- Masquerading: Disguised as authentic Windows system files, prolongs persistence
 
 ## Phase 3: Privilege Escalation and Credential Access
 
