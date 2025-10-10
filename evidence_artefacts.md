@@ -1,4 +1,4 @@
-# Forensic Evidence Artefacts
+# Evidence Artefacts
 
 ## Overview
 
@@ -105,4 +105,104 @@ trap #begins when an error is detected
 Continue } #continues to the next statement after the error
 ```
 
-### 3. enter here
+### 3. Credentials
+
+#### LSASS Dumping
+
+- Task Manager was used for the creation of this dump.
+   - First, open the manager.
+   - Then select a process you want to dump; in this case, Application Data was chosen.
+   - Right-click the process and select Create Dump File.
+   - A dialogue box will appear to showcase the dump, which can be viewed through an application such as Visual Studio (see below:).
+ 
+<img width="3840" height="2160" alt="lss dump" src="https://github.com/user-attachments/assets/bc01f94e-c9f8-430c-9cda-87968d89f973" />
+
+This dump showcases all of the modules on the system, their versions, and storage paths, allowing malicious users to understand the configuration of the system and slip malware into places that are not accessed regularly. 
+
+#### Mimikatz
+
+This application was downloaded from: https://github.com/ParrotSec/mimikatz/tree/master.
+
+[Note: when downloading it, the system's security will flag the file as a virus and once run, it will be terminated and put into quarantine. Go to Virus & Threat Protection, the history where a list of quarantined items is available. You can then manually release the file to allow it to run. For a black-hat hacker to run this without this issue, they would use the obfuscation techniques as demonstrated in the previous phases.]
+
+1. Password Extraction:
+
+- Before any passwords can be harvested, the user's privileges are raised. This is done through raising their role to debug, giving them access to interact with other processes, no matter what level they are.
+
+```
+privilege::debug
+```
+
+  Output:
+
+<img width="702" height="56" alt="image" src="https://github.com/user-attachments/assets/d17fa026-0820-4f5a-918b-07b40eda7a21" />
+
+- After this is completed, a token with high-level access is impersonated, allowing for sensitive tasks to be completed.
+
+```
+token::elevate
+```
+
+  Output:
+
+<img width="3714" height="571" alt="image" src="https://github.com/user-attachments/assets/5bb78e68-87e3-45bf-a7fc-4b0865e71b6c" />
+
+- Now the passwords can be dumped using 'sekurlsa', which interacts with the LSASS to extract this information.
+
+```
+serkurlsa::logonpasswords
+```
+
+  Output: P@ssw0rd!
+
+  (The short list is due to the simulation system having only one user. For a wider network in the real   world, the list would be longer, with much more exploitation possible.) 
+
+2. SAM Dump:
+
+- The Security Account Manager (SAM) is a database storing all of the usernames and password hashes for local accounts on a machine. Its legitimate purpose is to authenticate users who are logging onto the device. By using Mimikatz, this information can be used to obtain further privileged access to the system.
+
+```
+lsadump:sam
+```
+
+  Output:
+
+<img width="3840" height="2160" alt="sam" src="https://github.com/user-attachments/assets/28adc5e4-8293-46b5-b353-ee8d848e0ccd" />
+
+3. Location Finder:
+
+- The command prompt can be used to search for files that contain strings, such as 'password', in their names, leading malicious actors to possible locations of credentials.
+
+```
+findstr /si password *.txt
+findstr /si password *.xml *.ini *.txt #searches for files ending with .xml/.ini/.txt that contain 'password' in their name throughout all files on the system
+```
+
+<img width="3840" height="2160" alt="all partition files that conatin password" src="https://github.com/user-attachments/assets/4361ac6c-bfc4-41a8-959e-005630617db5" />
+
+- Instead of just files, the directories, their corresponding files, and the date and time of creation can be found through the code below:
+
+```
+dir /s *pass* == *cred* == *vnc* == *.config* #searches through directories for files containing 'pass'/'cred'/'vnc' in its name
+```
+
+- This allows for malicious users to find the newest credentials that will be more useful for them than the older, potentially out-of-date information.
+
+  Output: 
+
+<img width="3840" height="2160" alt="location and password txt list" src="https://github.com/user-attachments/assets/d96a28c5-bf17-4e36-8386-75e21f25af48" />
+
+4. Registry:
+
+- In previous steps, the registry has been manipulated using the command prompt. However, in this case, it can be used to search for registry keys that store passwords for further credential access.
+
+```
+reg query HKLM /f password /t REG_SZ /s #searches top-level registry hive for entries that contain 'password', including subkeys
+```
+
+  Output: 
+
+<img width="3840" height="2160" alt="registry passwords" src="https://github.com/user-attachments/assets/3098cd73-6c5d-44fe-8314-2c54a5304424" />
+
+
+### 4.
