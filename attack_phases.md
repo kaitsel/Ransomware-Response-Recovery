@@ -76,8 +76,8 @@ The attacker will escalate their privileges to gain greater access to the networ
 
 ### Implementation 
 
-- LSASS Dumping: By using the task manager, credentials were extracted from the system memory.
-- Mimikatz: Created a log to collect passwords stored in memory in plaintext.
+- LSASS Dumping: The Local Security Authority Subsystem Service (LSASS) is responsible for authenticating users and managing credentials, allowing for smoother sign-in times for legitimate users. By using the task manager, credentials can be extracted from the system memory.
+- Mimikatz: This open-source application can be used to collect passwords in plaintext from memory and is commonly used by black-hat hackers and security professionals.
 - Registry: Extracted stored passwords from the registry through the Command Prompt.
 - Hash Extraction: Displayed the password hashes in the security account manager database.
 
