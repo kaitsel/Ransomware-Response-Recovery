@@ -64,10 +64,15 @@ The attacker will escalate their privileges to gain greater access to the networ
 - T1068 - Exploitation for Privilege Escalation
    - Software vulnerabilities are taken advantage of to achieve higher levels of access.
 - T1003.001 - LSASS Memory
+   - The Local Security Authority Subsystem Service is accessed, where data from a user login is stored.
+- T1555 - Credentials from Password Stores
+   - Mimikatz is manipulated to dump credentials for greater access to systems.
+- T1552.002 - Unsecured Credentials
+   - Insecurely stored passwords are searched through queries.
 
-### Privilege Escalation Vulnerabillity 
+### Privilege Escalation Vulnerability 
 
-- CVE-2023-366874 (7.8 score): A reporting service error occurs when it comes to privilege elevation, allowing malicious actors to increase their privilege in a system with no indication being made to other users, including admins of the server.
+- CVE-2023-366874 (7.8 score): In 2023, an exploitation was discovered in the privilege escalation reporting service. This allowed malicious actors to increase their access level in the system without raising any flags to other users, including the server administrators. This became a zero-day vulnerability and has been patched. However, it can still be used by those who have local access to the system, raising concerns for insider threats.
 
 ### Implementation 
 
