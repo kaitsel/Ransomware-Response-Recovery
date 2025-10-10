@@ -27,3 +27,4 @@ This project will provide a comprehensive forensic timeline and analysis of a ra
 ## Sources
 
 - MITRE ATT&CK (2025) https://attack.mitre.org/
+- National Vulnerability Database, CVE-2023-36874 (2023) https://nvd.nist.gov/vuln/detail/cve-2023-36874
