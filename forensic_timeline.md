@@ -27,3 +27,11 @@ September 25, 2025, 11:37 GMT - Initial Compromise
 - System: Windows 11 (10.0.2.15)
 - Evidence:
    - Macro execution in Microsoft Word
+
+### Phase 3: Privilege Escalation and Credential Access
+
+(look at window event logs - event id 4688? event id 10?? -- on event viewer/sysmon)
+
+(search file for lsass.dmp -- dir /s lsass.dmp || dir /s *sam*)
+
+(check powershell logs)
