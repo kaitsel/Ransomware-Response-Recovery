@@ -35,3 +35,5 @@ September 25, 2025, 11:37 GMT - Initial Compromise
 (search file for lsass.dmp -- dir /s lsass.dmp || dir /s *sam*)
 
 (check powershell logs)
+
+(check command history)
