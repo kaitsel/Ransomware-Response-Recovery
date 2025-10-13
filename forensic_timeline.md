@@ -30,10 +30,8 @@ September 25, 2025, 11:37 GMT - Initial Compromise
 
 ### Phase 3: Privilege Escalation and Credential Access
 
-(look at window event logs - event id 4688? event id 10?? -- on event viewer/sysmon)
+(look at window event logs - event id 4688? - unable to be creaed due to current policies, set it up write up in recommendations 
 
-(search file for lsass.dmp -- dir /s lsass.dmp || dir /s *sam*)
+dump files found - write up here
 
-(check powershell logs)
-
-(check command history)
+(check powershell logs) - checked write-up
