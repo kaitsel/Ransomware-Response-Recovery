@@ -91,7 +91,12 @@ This step has been enhanced by the use of AI, which has removed the need for com
 
 ### MITRE ATT&CK Mapping
 
-- insert here
+- T1018 - Remote System Discovery
+   - Adversaries attempt to gain other systems' IP addresses, hostnames, or other logical identifiers.
+- T1558 - Steal or Forge Kerberos Tickets
+   - Using Mimikatz, the tickets can be stolen to enable a wider area of authentication through the Pass the Ticket attack.
+- T1423 - Network Service Scanning
+   - A list of services running on a host is created and examined for vulnerabilities to be used for exploitation.
 
 ### Target Prioritisation 
 
