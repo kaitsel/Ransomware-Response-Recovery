@@ -205,4 +205,6 @@ reg query HKLM /f password /t REG_SZ /s #searches top-level registry hive for en
 <img width="3840" height="2160" alt="registry passwords" src="https://github.com/user-attachments/assets/3098cd73-6c5d-44fe-8314-2c54a5304424" />
 
 
-### 4.
+### 4. Network Discovery and Lateral Movement
+
+[ad query code for later: Get-ADUser -Filter * -Properties * | Select-Object Name, SamAccountName, EmailAddress NEXT CODE LINE Get-ADGroup -Filter * | Select-Object Name, SamAccountName NEXT CODE LINE Get-ADComputer -Filter * | Select-Object Name, DNSHostName, OperatingSystem]
