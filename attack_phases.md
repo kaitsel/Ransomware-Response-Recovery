@@ -88,6 +88,11 @@ The attacker will escalate their privileges to gain greater access to the networ
 By using the elevated credentials gained by the previous step, attackers are able to map a network and identify weak areas to gain access to assets. This allows for a broader surface to cause damage to, expanding from one M&S store, for example, to the whole national branch. This step proves to be more difficult for detection as there is a large quantity of traffic on any given network, and with the escalated credentials, there would be no bells of alarm ringing from any disguised malicious packet transports.
 This step has been enhanced by the use of AI, which has removed the need for communication back and forth with a user, removing any return address and creating a more airtight cover for the red-hat hacker. To train the AI, it can be provided a script outlining the targets it should prioritise to take over (see 'Target Prioritisation' below for more information).
 
+### Current AI Frameworks That Can Assist
+
+- BloodHound: Uses machine learning to analyse and prioritise attack paths based on the level of impact the attacker is seeking. Can be found for free on GitHub for anyone's use, whether an authorised penetration tester or malicious user: https://github.com/MorDavid/BloodHound-MCP-AI.git. 
+- DeepExploit: Adapts its vulnerability scanning and exploitation to what is most likely to succeed. Once again, this is a free and accessible project on GitHub https://github.com/TheDreamPort/deep_exploit.git.
+- MITRE CALDERA: Uses plugins to autonomously explore networks and escalate privileges. It can be found on GitHub for free https://github.com/mitre/caldera.git. 
 
 ### MITRE ATT&CK Mapping
 
@@ -114,11 +119,6 @@ This step has been enhanced by the use of AI, which has removed the need for com
 
 - Pass-the-Hash: By using an extracted NTLM hash provided by Mimikatz from the previous step, the adversary can send the hash to another system remotely to gain authorisation without the need for plaintext passwords.
 
-### Current AI Frameworks that can Assist
-
-- BloodHound: Uses machine learning to analyse and prioritise attack paths based on the level of impact the attacker is seeking. Can be found for free on GitHub for anyone's use, whether an authorised penetration tester or malicious user: https://github.com/MorDavid/BloodHound-MCP-AI.git. 
-- DeepExploit: Adapts its vulnerability scanning and exploitation to what is most likely to succeed. Once again, this is a free and accessible project on GitHub https://github.com/TheDreamPort/deep_exploit.git.
-- MITRE CALDERA: Uses plugins to autonomously explore networks and escalate privileges. It can be found on GitHub for free https://github.com/mitre/caldera.git. 
 
 (to lock the files for the later phase)
 import os
