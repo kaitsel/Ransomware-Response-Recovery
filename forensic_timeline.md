@@ -59,3 +59,32 @@ October 1, 2025 and October 8, 2025 - PowerShell Log Warning Flags Generated
 - Evidence:
 <img width="3840" height="2160" alt="powershell logs" src="https://github.com/user-attachments/assets/b34e23bc-0c63-4b96-b54b-7f700f3fb9ee" />
 
+ideas:
+
+nmap
+- file system artefacts: which nmap or dpkg -l | grep nmap
+- memory forensics: ps aux | grep nmap
+- Wireshark:
+SYN Scan:
+Code
+tcp.flags.syn == 1 && tcp.flags.ack == 0
+Null Scan:
+Code
+tcp.flags == 0
+XMAS Scan:
+Code
+tcp.flags.fin == 1 && tcp.flags.psh == 1 && tcp.flags.urg == 1
+
+active driectory???:
+Directory Service Log:
+Enable Directory Service logging (AD DS).
+Look for LDAP query events (Event ID 1644 if LDAP search logging is enabled).
+How to view:
+Use Event Viewer: Windows Logs > Security or Applications and Services Logs > Directory Service.
+
+kerberos ticket:
+- use volatiliy or rekall
+- event id 4769
+
+pass-the-hash:
+- event id 4624 / 4776
