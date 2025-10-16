@@ -209,21 +209,17 @@ reg query HKLM /f password /t REG_SZ /s #searches top-level registry hive for en
 
 #### Active Directory
 
-- To be able to complete any queries in relation to the directory, the Remote Server Administration Tools (RSAT) must be enabled and installed on the device. It is available on Windows, but not automatically configured. To do this, the following code must be entered in PowerShell with Administrator access:
-
-```
-Get-WindowsCapability -Name RSAT* -Online #lists all available RSAT tools.
-Add-WindowsCapability -Online -Name Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0 #installs toolbox for Active Directory to complete the attack
-Get-Module -ListAvailable ActiveDirectory #checks if module is available
-```
-
-Open Settings > Apps > Optional Features.
-Click Add a feature.
-Search for RSAT: Active Directory Domain Services and Lightweight Directory Tools.
-Click Install.
-
-[ad query code for later: Get-ADUser -Filter * -Properties * | Select-Object Name, SamAccountName, EmailAddress NEXT CODE LINE Get-ADGroup -Filter * | Select-Object Name, SamAccountName NEXT CODE LINE Get-ADComputer -Filter * | Select-Object Name, DNSHostName, OperatingSystem]
+- enter code and results here
 
 #### Nmap Scanning
 
-- Nmap must be installed, which can be done on Windows using this link - nmap.org/download. 
+- Nmap must be installed, which can be done on Windows using this link - nmap.org/download.
+- enter code and results here
+
+#### Stolen Kerberos Ticket
+
+- enter something here
+
+#### Pass-the-Hash
+
+- enter something here
