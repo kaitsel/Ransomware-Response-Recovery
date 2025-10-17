@@ -59,32 +59,22 @@ October 1, 2025 and October 8, 2025 - PowerShell Log Warning Flags Generated
 - Evidence:
 <img width="3840" height="2160" alt="powershell logs" src="https://github.com/user-attachments/assets/b34e23bc-0c63-4b96-b54b-7f700f3fb9ee" />
 
-ideas:
+### Phase 4: Exploration and Lateral Movement
 
-nmap
-- file system artefacts: which nmap or dpkg -l | grep nmap
-- memory forensics: ps aux | grep nmap
-- Wireshark:
-SYN Scan:
-Code
-tcp.flags.syn == 1 && tcp.flags.ack == 0
-Null Scan:
-Code
-tcp.flags == 0
-XMAS Scan:
-Code
-tcp.flags.fin == 1 && tcp.flags.psh == 1 && tcp.flags.urg == 1
+October 17, 2025, 13:27 GMT - Event ID 4624 Created
+- Activity: Several Event ID 4624 were created in the Event Viewer under the Security Log around this time. This signals that a user/process has successfully logged on to the system. However, under the events, a warning has been flagged by the system, warning that impersonation is likely due to unusual patterns or token manipulation being detected.
+- Evidence:
+  <img width="3840" height="2160" alt="event 4624 was found" src="https://github.com/user-attachments/assets/c56a03c0-985a-4b85-938b-4943ea40e3cd" />
 
-active driectory???:
-Directory Service Log:
-Enable Directory Service logging (AD DS).
-Look for LDAP query events (Event ID 1644 if LDAP search logging is enabled).
-How to view:
-Use Event Viewer: Windows Logs > Security or Applications and Services Logs > Directory Service.
+October 17, 2025, 13:23 GMT - TCP SYN Packet
+- Activity: By analysing the network transportation around the time of the attack through Wireshark, several TCP SYN packets were captured. This is the first packet sent in a TCP three-way handshake, and due to the amount present, it is evident that port scanning was used within the attack. 
+- Code: ``` tcp.flags.syn == 1 && tcp.flags.ack == 0 ```
+- Evidence:
+  <img width="3840" height="2160" alt="syn scan" src="https://github.com/user-attachments/assets/8d507171-56ec-44e6-a9c2-59e36ad19879" />
 
-kerberos ticket:
-- use volatiliy or rekall
-- event id 4769
+October 17, 2025, 13:26 GMT - XMAS Scan
+- Activity: Using Wireshark, network traffic was filtered for TCP packets that contain both FIN and URG flags. This is uncommon traffic that is found when using a specialised application and attempting to evade detection by using unusual flag combinations. There was a packet found that fit the filter, flagging the potential for a malicious event to have occurred around this time. 
+- Code: ``` tcp.flags.fin == 1 && tcp.flags.urg == 1 ```
+- Evidence:
+  <img width="3840" height="2160" alt="xmas scan" src="https://github.com/user-attachments/assets/2330b6ae-088c-43da-ba4b-11f789a3144a" />
 
-pass-the-hash:
-- event id 4624 / 4776
