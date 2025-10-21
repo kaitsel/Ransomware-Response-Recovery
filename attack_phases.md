@@ -119,6 +119,35 @@ This step has been enhanced by the use of AI, which has removed the need for com
 
 - Pass-the-Hash: By using an extracted NTLM hash provided by Mimikatz from the previous step, the adversary can send the hash to another system remotely to gain authorisation without the need for plaintext passwords.
 
+## Phase 5: Collection and Exfiltration
+
+### Attack Description
+
+Before the final deployment of encrypting all data, attackers will collect and exfiltrate sensitive data, either to use as a financial resource to sell to other companies, to return to the company from which they stole it, or to leak it online and cause mass disruption. In the case study of the M&S and Co-op, personal information was stolen and leaked. This leads to a greater threat down the line with potential fraud and more attacks occurring. Not only does this harm the business's reputation and put its operation at risk of closure, but it also creates new potential targets to be used for later attacks, with access to their names, addresses, and birthdays.
+
+### MITRE ATT&CK Mapping
+
+- T1560 - Archive Collected Data
+   - Adversary compresses and/or encrypts data before the exfiltration stage, minimising the amount being sent over the network, reducing the risk of detection.
+- T1001.002 - Data Obfuscation: Steganography
+   - Adversaries use steganographic techniques to hide command and control traffic and other valuable information within an image to avoid detection efforts.
+- T1071.004 - Application Layer Protocol: DNS
+   - Communication through Domain Name System (DNS) to blend in with existing traffic and avoid detection.
+
+### Data Discovery
+
+- Sensitive File Identification: Located employee information and patient health records on the server.
+- Database Queries: Accessed structured data through a legitimate database connection. 
+
+### Collection and Staging
+
+- Data Aggregation: Consolidates valuable files into staging directories for easier access and prepares for transfer out of the private network. It converts data into one consistent format and protocol interface.
+- Compression: Creates encrypted archives to reduce the transfer size of the discovered files, as it would be easier for information security to detect an issue with a larger packet transfer along the network. 
+
+### Exfiltration Methods
+
+- Steganography: Hides data within an image file to allow for a covert transfer from within the network to an outside server. It is done by replacing the least significant bit of each pixel to store a bit of the data, altering the image only slightly, which is not noticeable to the naked eye.
+- DNS Tunnelling: Routes DNS requests to an attacker's server, providing a covert command and control channel. It hides non-DNS traffic within DNS packets, allowing them to bypass network security measures and collect user credentials. 
 
 (to lock the files for the later phase)
 import os
