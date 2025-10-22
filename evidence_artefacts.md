@@ -281,3 +281,45 @@ reg query HKLM /f password /t REG_SZ /s #searches top-level registry hive for en
   ```
   <img width="3840" height="2160" alt="pass the hash" src="https://github.com/user-attachments/assets/5e478791-1c45-4901-b66d-89af71013c96" />
 
+### 5. Collection and Exfiltration
+
+#### Data Aggregation & Compression [add comments to code!!!]
+
+1. Database Creation
+   - By using DB Browser for SQLite (downloaded at https://sqlitebrowser.org/dl/), three tables were created to be used for data aggregation and compression in this phase. Databases are the primary method in storing information as it is easy to read and connect through the use of primary and foreign keys. The table names and contents can be seen through the following SQL code:
+     ```
+     CREATE TABLE "Patient_Demographics" (
+     "Patient_ID" INTEGER NOT NULL UNIQUE,
+     "Name" TEXT NOT NULL,
+     "DoB" INTEGER NOT NULL,
+     PRIMARY KEY("Patient_ID")
+     );
+     
+     CREATE TABLE "Insurance" (
+     "Patient_ID" INTEGER NOT NULL UNIQUE,
+     "NHS_Number" INTEGER NOT NULL UNIQUE,
+     PRIMARY KEY("NHS_Number")
+     FOREIGN KEY("Patient_ID") REFERENCES "Patient_Demographics"("Patient_ID")
+     );
+
+     CREATE TABLE "Diagnosis" (
+     "Patient_ID" INTEGER NOT NULL UNIQUE,
+     "Symptoms" TEXT,
+     "Treatment" TEXT,
+     PRIMARY KEY("Patient_ID")
+     FOREIGN KEY("Patient_ID") REFERENCES "Patient_Demographics"("Patient_ID")
+     );
+     ```
+- After the tables are created, data must be added. This was done using the SQL code below:
+  ```
+  INSERT INTO Patient_Demographics (Patient_ID, DoB) VALUES ('98', 'Deberah Allisan', '04/15/1999'), ('53', 'Donald Richards', '09/12/1967'), ('82', 'Drew Crawley', '10/11/2003');
+  INSERT INTO Insurance (Patient_ID, NHS_NUmber) VALUES ('98', '28456058'), ('53', '47192834'), ('37482917');
+  INSERT INTO Diagnosis (Patient_ID, Symptoms, Treatment) VALUES ('98', 'High body temperature', 'IV'), ('53', 'Sprained right knee', 'Wrap and crutches'), ('82', 'Dizzy spells', 'Bed rest until advised');
+  ```
+
+2. Database Aggregation
+
+#### Steganography
+
+### DNS Tunnelling
+
