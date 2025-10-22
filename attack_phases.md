@@ -146,7 +146,7 @@ Before the final deployment of encrypting all data, attackers will collect and e
 ### Exfiltration Methods
 
 - Steganography: Hides data within an image file to allow for a covert transfer from within the network to an outside server. It is done by replacing the least significant bit of each pixel to store a bit of the data, altering the image only slightly, which is not noticeable to the naked eye.
-- DNS Tunnelling: Routes DNS requests to an attacker's server, providing a covert command and control channel. It hides non-DNS traffic within DNS packets, allowing them to bypass network security measures and collect user credentials. 
+- DNS Tunnelling: Routes DNS requests to an attacker's server, providing a covert command and control channel. It hides non-DNS traffic within DNS packets, allowing them to bypass network security measures and collect user credentials.  [further explain this, won't be able to do it as it costs money to buy a dns]
 
 (to lock the files for the later phase)
 import os
