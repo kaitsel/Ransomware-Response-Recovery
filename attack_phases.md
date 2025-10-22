@@ -137,7 +137,6 @@ Before the final deployment of encrypting all data, attackers will collect and e
 ### Data Discovery
 
 - Sensitive File Identification: Located employee information and patient health records on the server.
-- Database Queries: Accessed structured data through a legitimate database connection. 
 
 ### Collection and Staging
 
