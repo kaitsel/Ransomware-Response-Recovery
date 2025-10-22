@@ -310,7 +310,7 @@ reg query HKLM /f password /t REG_SZ /s #searches top-level registry hive for en
      FOREIGN KEY("Patient_ID") REFERENCES "Patient_Demographics"("Patient_ID")
      );
      ```
-- After the tables are created, data must be added. This was done using the SQL code below:
+  - After the tables are created, data must be added. This was done using the SQL code below:
   ```
   INSERT INTO Patient_Demographics (Patient_ID, DoB) VALUES ('98', 'Deberah Allisan', '04/15/1999'), ('53', 'Donald Richards', '09/12/1967'), ('82', 'Drew Crawley', '10/11/2003');
   INSERT INTO Insurance (Patient_ID, NHS_NUmber) VALUES ('98', '28456058'), ('53', '47192834'), ('37482917');
@@ -318,8 +318,25 @@ reg query HKLM /f password /t REG_SZ /s #searches top-level registry hive for en
   ```
 
 2. Database Aggregation
+   - Inner Join is used to combine the two most needed tables, Patient_Demographics and Insurance. These tables contains the most confidential data that could be used for future attacks through fraud theft, or spear-phishing to spread more ransomware, repeating this cycle. The following SQL code is how to combine the two tables:
+     ```
+     SELECT *
+     FROM Patient_Demographics
+     INNER JOIN Insurance
+     USING (Patient_ID);
+     ```
+  - The results were then exported as a CVS file, saved under 'data_agg', ready for compression and transfer.
 
+3. Compression
+   - There are three methods that can be used:
+     a. ZIP = Universally supported, examines each file individually to determine mose efficient way to compress it. This allows for different compression methods to be used on data in single file to improve speed.
+     b. 7z = Removes redundancy in the structure. This increases the threat of file corruption as one failed data packet will lead to the chain being broken and unrecoverable. It has no recovery mechainsms built within it and is not widely used.
+     c. TAR = Originally used for magnetic tape drive storage and is used for Unix systems as it preserves file permissions.
+     - The file will be compressed using ZIP as it is universally supported and will allow for easier transpertation as it will not stand out as much as other compressed files. Also, there is a less of a risk for data loss, which will cause severe issues for the attacker as having to retry the phase several times increases the risk of being detected and mitigated before the final phase.
+  
 #### Steganography
 
-### DNS Tunnelling
+(application has been downloaded for use)
 
+### DNS Tunnelling
+???
