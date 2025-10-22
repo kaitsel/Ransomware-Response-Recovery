@@ -329,10 +329,10 @@ reg query HKLM /f password /t REG_SZ /s #searches top-level registry hive for en
 
 3. Compression
    - There are three methods that can be used:
-     a. ZIP = Universally supported, examines each file individually to determine mose efficient way to compress it. This allows for different compression methods to be used on data in single file to improve speed.
-     b. 7z = Removes redundancy in the structure. This increases the threat of file corruption as one failed data packet will lead to the chain being broken and unrecoverable. It has no recovery mechainsms built within it and is not widely used.
-     c. TAR = Originally used for magnetic tape drive storage and is used for Unix systems as it preserves file permissions.
-     - The file will be compressed using ZIP as it is universally supported and will allow for easier transpertation as it will not stand out as much as other compressed files. Also, there is a less of a risk for data loss, which will cause severe issues for the attacker as having to retry the phase several times increases the risk of being detected and mitigated before the final phase.
+     - ZIP = Universally supported, examines each file individually to determine mose efficient way to compress it. This allows for different compression methods to be used on data in single file to improve speed.
+     - 7z = Removes redundancy in the structure. This increases the threat of file corruption as one failed data packet will lead to the chain being broken and unrecoverable. It has no recovery mechainsms built within it and is not widely used.
+     -  TAR = Originally used for magnetic tape drive storage and is used for Unix systems as it preserves file permissions.
+   - The file will be compressed using ZIP as it is universally supported and will allow for easier transpertation as it will not stand out as much as other compressed files. Also, there is a less of a risk for data loss, which will cause severe issues for the attacker as having to retry the phase several times increases the risk of being detected and mitigated before the final phase.
   
 #### Steganography
 
