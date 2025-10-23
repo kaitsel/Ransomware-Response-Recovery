@@ -286,7 +286,7 @@ reg query HKLM /f password /t REG_SZ /s #searches top-level registry hive for en
 #### Data Aggregation & Compression [add comments to code!!!]
 
 1. Database Creation
-   - By using DB Browser for SQLite (downloaded at https://sqlitebrowser.org/dl/), three tables were created to be used for data aggregation and compression in this phase. Databases are the primary method in storing information as it is easy to read and connect through the use of primary and foreign keys. The table names and contents can be seen through the following SQL code:
+   - By using DB Browser for SQLite (downloaded at https://sqlitebrowser.org/dl/), three tables were created to be used for data aggregation and compression in this phase. Databases are the primary method for storing information, as they are easy to read and connect through the use of primary and foreign keys. The table names and contents can be seen through the following SQL code:
      ```
      CREATE TABLE "Patient_Demographics" (
      "Patient_ID" INTEGER NOT NULL UNIQUE,
@@ -313,30 +313,27 @@ reg query HKLM /f password /t REG_SZ /s #searches top-level registry hive for en
   - After the tables are created, data must be added. This was done using the SQL code below:
   ```
   INSERT INTO Patient_Demographics (Patient_ID, DoB) VALUES ('98', 'Deberah Allisan', '04/15/1999'), ('53', 'Donald Richards', '09/12/1967'), ('82', 'Drew Crawley', '10/11/2003');
-  INSERT INTO Insurance (Patient_ID, NHS_NUmber) VALUES ('98', '28456058'), ('53', '47192834'), ('37482917');
+  INSERT INTO Insurance (Patient_ID, NHS_Number) VALUES ('98', '28456058'), ('53', '47192834'), ('37482917');
   INSERT INTO Diagnosis (Patient_ID, Symptoms, Treatment) VALUES ('98', 'High body temperature', 'IV'), ('53', 'Sprained right knee', 'Wrap and crutches'), ('82', 'Dizzy spells', 'Bed rest until advised');
   ```
 
 2. Database Aggregation
-   - Inner Join is used to combine the two most needed tables, Patient_Demographics and Insurance. These tables contains the most confidential data that could be used for future attacks through fraud theft, or spear-phishing to spread more ransomware, repeating this cycle. The following SQL code is how to combine the two tables:
+   - Inner Join is used to combine the two most needed tables, Patient_Demographics and Insurance. These tables contain the most confidential data, which could be used for future attacks through fraud, theft, or spear-phishing to spread more ransomware, thereby repeating this cycle. The following SQL code shows how to combine the two tables:
      ```
      SELECT *
      FROM Patient_Demographics
      INNER JOIN Insurance
      USING (Patient_ID);
      ```
-  - The results were then exported as a CVS file, saved under 'data_agg', ready for compression and transfer.
+  - The results were then exported as a CSV file, saved under 'data_agg', ready for compression and transfer.
 
 3. Compression
    - There are three methods that can be used:
-     - ZIP = Universally supported, examines each file individually to determine mose efficient way to compress it. This allows for different compression methods to be used on data in single file to improve speed.
-     - 7z = Removes redundancy in the structure. This increases the threat of file corruption as one failed data packet will lead to the chain being broken and unrecoverable. It has no recovery mechainsms built within it and is not widely used.
-     -  TAR = Originally used for magnetic tape drive storage and is used for Unix systems as it preserves file permissions.
-   - The file will be compressed using ZIP as it is universally supported and will allow for easier transpertation as it will not stand out as much as other compressed files. Also, there is a less of a risk for data loss, which will cause severe issues for the attacker as having to retry the phase several times increases the risk of being detected and mitigated before the final phase.
+     - ZIP = Universally supported, examines each file individually to determine the most efficient way to compress it. This allows for different compression methods to be used on data in a single file to improve speed.
+     - 7z = Removes redundancy in the structure. This increases the threat of file corruption as one failed data packet will lead to the chain being broken and unrecoverable. It has no recovery mechanisms built within it and is not widely used.
+     -  TAR = Originally used for magnetic tape drive storage and is used for Unix systems, as it preserves file permissions.
+   - The file will be compressed using ZIP, as it is universally supported and will allow for easier transportation, as it will not stand out as much as other compressed files. Also, there is less of a risk for data loss, which will cause severe issues for the attacker, as having to retry the phase several times increases the risk of being detected and mitigated before the final phase.
   
 #### Steganography
 
-(application has been downloaded for use)
-
-### DNS Tunnelling
-???
+- Using Steganography Online, a free resource found on GitHub (https://stylesuxx.github.io/steganography/), the aggregated dataset, generated above, was encoded into an image of the NHS logo. This will make transportation out of the server less risky for the attacker, as many emails contain this logo at the bottom, or are included within several data packet transfers as a signature.
