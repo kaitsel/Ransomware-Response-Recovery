@@ -289,15 +289,15 @@ reg query HKLM /f password /t REG_SZ /s #searches top-level registry hive for en
    - By using DB Browser for SQLite (downloaded at https://sqlitebrowser.org/dl/), three tables were created to be used for data aggregation and compression in this phase. Databases are the primary method for storing information, as they are easy to read and connect through the use of primary and foreign keys. The table names and contents can be seen through the following SQL code:
      ```
      CREATE TABLE "Patient_Demographics" (
-     "Patient_ID" INTEGER NOT NULL UNIQUE,
+     "Patient_ID" INTEGER NOT NULL UNIQUE, #specifies what data input should be entered to ensure consistency within the database; in this case, the data should be a unique number, and this field cannot be left blank
      "Name" TEXT NOT NULL,
      "DoB" INTEGER NOT NULL,
-     PRIMARY KEY("Patient_ID")
+     PRIMARY KEY("Patient_ID") #this is another way to specify data regulations, it autmoatically means the field cannot be left blank and must be unique
      );
      
      CREATE TABLE "Insurance" (
      "Patient_ID" INTEGER NOT NULL UNIQUE,
-     "NHS_Number" INTEGER NOT NULL UNIQUE,
+     "NHS_Number" INTEGER, #as this is a primary key NOT NULL and UNIQUE does not need to be specified here
      PRIMARY KEY("NHS_Number")
      FOREIGN KEY("Patient_ID") REFERENCES "Patient_Demographics"("Patient_ID")
      );
