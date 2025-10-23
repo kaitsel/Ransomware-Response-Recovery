@@ -53,8 +53,8 @@ Function Base64Decode(base64string As String) As String 'function to decode obfu
     
 End Function
 
-Sub Document_Open() 'procedure will run once document is opened
-    MsgBox "This file contained malcious code. Your files are now under attack!", vbExclamation, "RANSOMWARE" 'opens a message box alerting user that the code has run
+Sub Document_Open() 'procedure will run once the document is opened
+    MsgBox "This file contained malicious code. Your files are now under attack!", vbExclamation, "RANSOMWARE" 'opens a message box alerting the user that the code has run
     
     Dim encoded As String
     encoded = "bWFsd2FyZQ==" '"malware" after being obfuscated in base64
@@ -283,7 +283,7 @@ reg query HKLM /f password /t REG_SZ /s #searches top-level registry hive for en
 
 ### 5. Collection and Exfiltration
 
-#### Data Aggregation & Compression [add comments to code!!!]
+#### Data Aggregation & Compression
 
 1. Database Creation
    - By using DB Browser for SQLite (downloaded at https://sqlitebrowser.org/dl/), three tables were created to be used for data aggregation and compression in this phase. Databases are the primary method for storing information, as they are easy to read and connect through the use of primary and foreign keys. The table names and contents can be seen through the following SQL code:
@@ -292,18 +292,18 @@ reg query HKLM /f password /t REG_SZ /s #searches top-level registry hive for en
      "Patient_ID" INTEGER NOT NULL UNIQUE, #specifies what data input should be entered to ensure consistency within the database; in this case, the data should be a unique number, and this field cannot be left blank
      "Name" TEXT NOT NULL,
      "DoB" INTEGER NOT NULL,
-     PRIMARY KEY("Patient_ID") #this is another way to specify data regulations, it autmoatically means the field cannot be left blank and must be unique
+     PRIMARY KEY("Patient_ID") #this is another way to specify data regulations, it automatically means the field cannot be left blank and must be unique
      );
      
      CREATE TABLE "Insurance" (
      "Patient_ID" INTEGER NOT NULL UNIQUE,
-     "NHS_Number" INTEGER, #as this is a primary key NOT NULL and UNIQUE does not need to be specified here
+     "NHS_Number" INTEGER, #as this is a primary key, NOT NULL and UNIQUE do not need to be specified here
      PRIMARY KEY("NHS_Number")
-     FOREIGN KEY("Patient_ID") REFERENCES "Patient_Demographics"("Patient_ID")
+     FOREIGN KEY("Patient_ID") REFERENCES "Patient_Demographics"("Patient_ID") #reinforces referential integrity as child row must reference existing parent row
      );
 
      CREATE TABLE "Diagnosis" (
-     "Patient_ID" INTEGER NOT NULL UNIQUE,
+     "Patient_ID" INTEGER,
      "Symptoms" TEXT,
      "Treatment" TEXT,
      PRIMARY KEY("Patient_ID")
@@ -317,15 +317,20 @@ reg query HKLM /f password /t REG_SZ /s #searches top-level registry hive for en
   INSERT INTO Diagnosis (Patient_ID, Symptoms, Treatment) VALUES ('98', 'High body temperature', 'IV'), ('53', 'Sprained right knee', 'Wrap and crutches'), ('82', 'Dizzy spells', 'Bed rest until advised');
   ```
 
+<img width="3840" height="2160" alt="tables with data" src="https://github.com/user-attachments/assets/1b696399-00c4-4d45-982c-8d950ef20f6c" />
+
 2. Database Aggregation
    - Inner Join is used to combine the two most needed tables, Patient_Demographics and Insurance. These tables contain the most confidential data, which could be used for future attacks through fraud, theft, or spear-phishing to spread more ransomware, thereby repeating this cycle. The following SQL code shows how to combine the two tables:
      ```
-     SELECT *
+     SELECT * #selects all fields
      FROM Patient_Demographics
-     INNER JOIN Insurance
-     USING (Patient_ID);
+     INNER JOIN Insurance #returns results from two tables that share a matching value
+     USING (Patient_ID); #will only show the Patient_ID field once, bridges both tables with this value
      ```
   - The results were then exported as a CSV file, saved under 'data_agg', ready for compression and transfer.
+
+<img width="3840" height="2160" alt="join results" src="https://github.com/user-attachments/assets/dee0c5ea-2597-439a-aeaa-ca53b6979862" />
+
 
 3. Compression
    - There are three methods that can be used:
@@ -333,7 +338,19 @@ reg query HKLM /f password /t REG_SZ /s #searches top-level registry hive for en
      - 7z = Removes redundancy in the structure. This increases the threat of file corruption as one failed data packet will lead to the chain being broken and unrecoverable. It has no recovery mechanisms built within it and is not widely used.
      -  TAR = Originally used for magnetic tape drive storage and is used for Unix systems, as it preserves file permissions.
    - The file will be compressed using ZIP, as it is universally supported and will allow for easier transportation, as it will not stand out as much as other compressed files. Also, there is less of a risk for data loss, which will cause severe issues for the attacker, as having to retry the phase several times increases the risk of being detected and mitigated before the final phase.
+
+<img width="3840" height="2160" alt="compressed file" src="https://github.com/user-attachments/assets/903e5dc0-ffd9-45f2-992e-a56e6e8152e1" />
+
   
 #### Steganography
 
 - Using Steganography Online, a free resource found on GitHub (https://stylesuxx.github.io/steganography/), the aggregated dataset, generated above, was encoded into an image of the NHS logo. This will make transportation out of the server less risky for the attacker, as many emails contain this logo at the bottom, or are included within several data packet transfers as a signature.
+- Below shows the confidential data being encoded using the Least Significant Bit method:
+  
+<img width="3840" height="2160" alt="steg encode" src="https://github.com/user-attachments/assets/e0d7ec0a-6371-4c08-9095-0e33f9fb0693" />
+
+- Below are the images before being encoded (on the left) and after (on the right). There is no obvious difference to be detected by the human eye between these two images.
+
+<img width="3840" height="2160" alt="before and after images (after is on right)" src="https://github.com/user-attachments/assets/f630bdae-3318-4be9-b003-ec4b92695e5b" />
+
+
