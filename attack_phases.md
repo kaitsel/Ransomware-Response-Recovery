@@ -127,16 +127,16 @@ Before the final deployment of encrypting all data, attackers will collect and e
 
 ### MITRE ATT&CK Mapping
 
+- T1074.001 - Data Staged: Local Data Staging
+   - Collected data is combined into a central location for efficiency when completing exfiltration, decreasing the likelihood of being detected when moving information out of the system. 
 - T1560 - Archive Collected Data
    - Adversary compresses and/or encrypts data before the exfiltration stage, minimising the amount being sent over the network, reducing the risk of detection.
 - T1001.002 - Data Obfuscation: Steganography
    - Adversaries use steganographic techniques to hide command and control traffic and other valuable information within an image to avoid detection efforts.
-- T1071.004 - Application Layer Protocol: DNS
-   - Communication through Domain Name System (DNS) to blend in with existing traffic and avoid detection.
 
 ### Data Discovery
 
-- Sensitive File Identification: Located employee information and patient health records on the server.
+- Sensitive File Identification: Located patient health records on the server. This information includes: full name, birthdate, and health insurance number of which can be used for fraud theft if leaked. 
 
 ### Collection and Staging
 
@@ -146,7 +146,6 @@ Before the final deployment of encrypting all data, attackers will collect and e
 ### Exfiltration Methods
 
 - Steganography: Hides data within an image file to allow for a covert transfer from within the network to an outside server. It is done by replacing the least significant bit of each pixel to store a bit of the data, altering the image only slightly, which is not noticeable to the naked eye.
-- DNS Tunnelling: Routes DNS requests to an attacker's server, providing a covert command and control channel. It hides non-DNS traffic within DNS packets, allowing them to bypass network security measures and collect user credentials.  [further explain this, won't be able to do it as it costs money to buy a dns]
 
 (to lock the files for the later phase)
 import os
