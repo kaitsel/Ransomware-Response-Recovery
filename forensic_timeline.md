@@ -78,3 +78,10 @@ October 17, 2025, 13:26 GMT - XMAS Scan
 - Evidence:
   <img width="3840" height="2160" alt="xmas scan" src="https://github.com/user-attachments/assets/2330b6ae-088c-43da-ba4b-11f789a3144a" />
 
+### Phase 5: Collection and Exfiltration
+
+October 23, 2025, 16:34 GMT - Encoded Image Created
+- Activity: Attacker created an image (PNG) encoded with confidential details using Steganography.
+- Tool: Aperi'Solve using Zsteg (https://www.aperisolve.com/).
+- Evidence:
+<img width="3840" height="2160" alt="decoded evidence" src="https://github.com/user-attachments/assets/f9021236-b95c-40ef-bbd4-15634f3a5b2a" />
