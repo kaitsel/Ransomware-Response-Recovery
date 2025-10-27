@@ -147,18 +147,35 @@ Before the final deployment of encrypting all data, attackers will collect and e
 
 - Steganography: Hides data within an image file to allow for a covert transfer from within the network to an outside server. It is done by replacing the least significant bit of each pixel to store a bit of the data, altering the image only slightly, which is not noticeable to the naked eye.
 
-(to lock the files for the later phase)
-import os
+## Phase 6: Impact and Ransomware Deployment
 
-// Directory to 'lock' files in (choose a harmless test folder!)
-target_dir = "C:/Users/YourUser/Desktop/testfolder"
+## Attack Description
 
-for filename in os.listdir(target_dir):
-    file_path = os.path.join(target_dir, filename)
-    if os.path.isfile(file_path):
-        # Simulate locking by renaming the file
-        os.rename(file_path, file_path + ".locked")
+This is the final stage of the ransomware attack, and it is where the malicious actors make themselves present to the company and to their customers through the use of encryption, service termination, and sometimes data leaks. This causes mass chaos, creating immense pressure on the business to decide how they are going to handle this situation, and many third parties back out due to this rupture in their reputation. The best advice is not to pay the criminals, as this only encourages the behaviour, does not guarantee data return, and will most likely cost millions more than it would have to recover the services. However, money will be lost no matter what path the company takes after this phase succeeds. In the case study, both M7S and Co-Op were unable to stock their shelves for weeks, and mobile apps for ordering were down for months, leading to an exceptional dip in revenue.
 
-// Create a ransom note
-with open(os.path.join(target_dir, "README_RESTORE_FILES.txt"), "w") as f:
-    f.write("Your files have been 'locked'. This is a simulation for educational purposes.\nNo data has been harmed.\n")
+## MITRE ATT&CK Mapping
+
+- T1486 - Data Encrypted for Impact
+   - Targeted system's files and resources are encrypted, and the decryption key is withheld to extract monetary compensation from the victim or to permanently damage the service.
+- T1490 - Inhibit System Recovery
+   - Adversaries will turn off services that aid in the recovery of corrupted systems, increasing the destruction of the attack.
+- T1491 - Defacement
+   - Malicious actors affect the integrity of the original content on the system for intimidation purposes and to claim credit for the intrusion.
+
+## Psychological Impact
+
+- Ransom Notes: Displays threatening messages on screens, an infamous example is the WannaCry screen saver. Its bright red background with two countdowns marking a price increase with one and a total data loss is not only eye-catching but powerful in sending a message.
+- Deadline Pressure: By including a countdown, stress and anxiety levels will increase. In this psychological state, rational decisions are increasingly difficult to make and can lead to severe mistakes, such as paying out the ransom.
+- Data Proof: Malicious actors may provide samples of stolen data either privately to the company or publicly to use as leverage.
+
+## Preperation
+
+- Security Disabling: Antivirus and security services are halted to allow the ransomware to take place, with no issue from any measures put in place by either the company or automatically configured by the hardware provider.
+- Shadow Copy Deletion: Removal of all Windows restore points to create further barriers in recovery.
+- Backup Destruction: Backup systems are deleted to ensure all terminated services cannot be recovered through any other means but by giving in to the ransom.
+
+## Ransomware Execution 
+
+- File Encryption: Important documents and databases are locked from access by official employees.
+- Key Management: Unique encryption keys are used per file type to decrease the likelihood of gaining access to the system without the malicious actors' help.
+- Ransom Note: A default warning screen to show that the system has been compromised to initiate the psychological impact on the employees. 
