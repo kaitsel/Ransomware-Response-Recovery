@@ -6,7 +6,7 @@ This project will provide a comprehensive forensic timeline and analysis of a ra
 
 ## Case Study: NHS Ransomware Attack
 
-- Attack Type: Conti Ransomware Variant
+- Attack Type: Ransomware through Phishing
 - Timeline: September 22 - October 27, 2025 (subject to change)
 - Industry: National Health Service
 
@@ -26,3 +26,7 @@ This project will provide a comprehensive forensic timeline and analysis of a ra
 
 - MITRE ATT&CK (2025) https://attack.mitre.org/
 - National Vulnerability Database, CVE-2023-36874 (2023) https://nvd.nist.gov/vuln/detail/cve-2023-36874
+
+## Disclaimer
+
+All malicious code is either illustrative or temporary due to ethical and legal issues. Due to this device being used for other means besides running the virtual machine, fully developed ransomware code was not used to ensure the safety of the software. All code will be within the bounds of the virtual machine and will not affect the computer that is hosting. The system will be connected to the Internet through an Ethernet cable; however, the device will have no access to a wider network, ensuring any issues that may arise are contained and can be mitigated locally. All recommendations within this project should not be used for malicious purposes and have been done for educational use to explore what causes certain flags within a system and what and how things can be broken to gain malicious access.
