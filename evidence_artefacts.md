@@ -355,7 +355,45 @@ reg query HKLM /f password /t REG_SZ /s #searches top-level registry hive for en
 
 ### 6. Ransomware Initiated
 
-(to lock the files for the later phase)
+#### Preparation
+
+1. Security Disabling
+
+- Antivirus services are deactivated through the Virus & Threat Protection settings inside the Windows Security App. Real-time protection is turned off, blocking the detection of malware installation and allowing it to run. This is only a short-term effect, as it will be configured back on once the computer is restarted. Therefore, this step should be taken immediately before malware deployment to ensure the setting remains off.
+
+(insert evidence)
+
+2. Shadow Copy Deletion
+
+- To delete all shadow copies on the system, the following code should be run on an Admin-level Command Prompt:
+
+```
+vssadmin delete shadows /all #Volume Shadow Copy Service Administrative is called on to delete shadows with a flag specifying all to be removed
+```
+
+- Below are the results. Please note that there are no items listed, as there were no shadow copies created for the Virtual Machine. Normally, a list of copies will be shown, including the path where it was saved.
+
+(insert evidence)
+
+- This can also be done through Disk Cleanup. First, click on 'clean up system files'.
+
+(insert pic)
+
+- Then go to the 'more options' tab after the scan has completed. Once there, select the 'clean up' option under 'system restore and shadow copies' to delete all backups on the system.
+
+(insert pics)
+
+3. Backup Destruction
+
+- Through the Control Panel > System and Security> System > System Protection, restore points can be configured to disable and delete any existing backups.
+
+(insert pic)
+
+#### Execution
+
+- Through Visual Studios, using the Python language, the following code was executed to simulate the locking of files and creating a ransom note.
+
+(update code and add comments!!)
 import os
 
 // Directory to 'lock' files in (choose a harmless test folder!)
@@ -370,3 +408,9 @@ for filename in os.listdir(target_dir):
 // Create a ransom note
 with open(os.path.join(target_dir, "README_RESTORE_FILES.txt"), "w") as f:
     f.write("Your files have been 'locked'. This is a simulation for educational purposes.\nNo data has been harmed.\n")
+
+(add pic of result)
+
+- The ransom note was created by studying several previous instances collected in a database on Group-IB (https://www.group-ib.com/resources/ransomware-notes/). All of the notes inform the user about what has happened, the group responsible, and that they are the only ones who can help unlock the files. Additionally, the notes outline the rules governing how the victims should proceed to ensure cooperation. These range in length and style of language, some friendly addressing to "friends" or formal, such as "Dear Management". Each will have different psychological effects. A more friendly approach might be trying to gain trust with the users for easier cooperation. The other approach might go with fear tactics, marking themselves as a threat to be taken seriously. The tactic used in this study was a threatening tone to induce panic, preying on quick, illogical decisions for financial gain. 
+
+(add ransom note pic)
