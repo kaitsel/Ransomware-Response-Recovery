@@ -3,8 +3,8 @@
 ## Case Overview
 - **Attack Type:** Ransomware
 - **Target:** NHS Patient Data
-- **Discovery Date:** (Enter later)
-- **Timeline Period:** September 24, 2025, to (enter later)
+- **Discovery Date:** October 29, 2025
+- **Timeline Period:** September 24 to October 29, 2025
 
 ## Executive Summary
 
@@ -85,3 +85,11 @@ October 23, 2025, 16:34 GMT - Encoded Image Created
 - Tool: Aperi'Solve using Zsteg (https://www.aperisolve.com/).
 - Evidence:
 <img width="3840" height="2160" alt="decoded evidence" src="https://github.com/user-attachments/assets/f9021236-b95c-40ef-bbd4-15634f3a5b2a" />
+
+### Phase 6: Ransomware Deployment 
+
+October 23, 2025, 18:53 GMT - Ransom Note Created
+- Activity: Files were locked, and a note was left explaining what had happened. The message suggests not to contact the authorities, threatening to delete the data forever.
+- Evidence:
+<img width="2375" height="89" alt="image" src="https://github.com/user-attachments/assets/26e3ad5b-8812-48ef-92e7-78d9ab7523f9" />
+
