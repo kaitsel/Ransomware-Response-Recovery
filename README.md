@@ -7,7 +7,7 @@ This project will provide a comprehensive forensic timeline and analysis of a ra
 ## Case Study: NHS Ransomware Attack
 
 - Attack Type: Ransomware through Phishing
-- Timeline: September 22 - October 27, 2025 (subject to change)
+- Timeline: September 22 - October 29, 2025
 - Industry: National Health Service
 
 ## Infrustructure
