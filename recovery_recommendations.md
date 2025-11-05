@@ -29,14 +29,20 @@ The following recommendations are a mixture of technical, administrative, and ph
  
 - **Multi-Factor Authentication**
    - The adversary in this case study was able to commit the phases easily due to the credential access. It was obtained through an easy password-stealing manoeuvre which could have been **prevented** in two different ways. First is using a more complex password that includes upper and lowercase letters, numbers, and special characters. There are no set global policies within the system on how passwords should be created, which should be immediately rectified. The second important control to implement is multi-factor authentication, which would alert a user if someone were trying to access their workstation with their credentials. This will allow for the actor to be removed safely and the user to reconstruct their password to avoid a repeat attack.
-     (insert new global password policy pic here)
+   - Below are the current password settings:
+   
+<img width="3840" height="2160" alt="og password settings" src="https://github.com/user-attachments/assets/89110e0d-4068-448a-883d-b6a04955cb89" />
+
+   - Below are the newly updated password settings, which will further prevent credential harvesting, especially with the storage of all passwords in encryption at rest.
+
+   <img width="3840" height="2160" alt="new passwords settings" src="https://github.com/user-attachments/assets/2f26e341-6896-4156-bfd8-919eade4f9c3" />
+
 
 - **Quarantine**
    - A useful tool in **correction** is through examining the virus at hand in a safe environment to understand how it works to increase the effectiveness of prevention for next time and to find a path towards recovery. The first step is to isolate the software into a secure area in either the network or the workstation, cutting it off from access to the rest of the untouched data. It should then be tested to ensure it is not a false positive. Treat it with caution and only restore if there is a one-hundred per cent assurance that it is not infected. If it is, then analyse and delete.
 
 - **Patch Management**
   - Throughout the study, several software update notifications were not downloaded, and there are no current policies set into place for automatic patching. This is extremely important for every business and user to include in their defence system, as exploitation, such as the CVE-2023-36874, which was previously discussed during this case, has been **corrected** through a Windows patch. Frequent updating can ensure systems are clear of any unknown zero-day vulnerabilities and **prevent** adversaries from finding a backdoor.
-    (insert pic)
 
 ## Physical Controls
 
