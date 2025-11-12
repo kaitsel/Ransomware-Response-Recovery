@@ -63,6 +63,189 @@ All malicious code is either illustrative or temporary due to ethical and legal 
 
 # Results
 
+# Ransomware Attack Phases Analysis
+
+## Overview
+
+This document outlines the six phases mapped out in the MITRE ATT&CK framework, explaining the tactics, techniques, and procedures employed to create a successful attack. 
+
+## Phase 1: Initial Access and Reconnaissance
+
+### Attack Description
+
+The attackers initiated an attack by sending a phishing email containing a Word document with hidden VBA macros within. Once entry is made, malicious actors could spend days or even weeks on the network before revealing themselves to the company. This was done in the Co-op and M&S attacks this year.
+
+### MITRE ATT&CK Mapping
+
+- T1566.001 - Spearphishing Attachment
+   - The malware is sent through an attachment (Microsoft Office docs / executable PDFs / archived files), relying on user execution.
+- T1589.002 - Email Addresses
+   - Adversaries will use public-facing emails that are readily available.
+- T1564.007 - VBA Stomping
+   - Replaces VBA source code with benign data.
+
+### Social Engineering Techniques
+
+- Fear (threatens to shut down the employee's access to the network).
+- Urgency (creates a fake deadline to rush the user into a split decision).
+- Helpfulness (mimics an official business, NHS in this instance, gaining trust).
+
+### Implementation
+
+- Malicious Document: Microsoft Word file containing VBA macros sent to unsuspecting user
+- Payload Delivery: Compromises the system unknowingly to the user
+- Evasion: Obfuscation of macros to avoid detection and automatically runs upon opening the document
+
+## Phase 2: Execution and Persistence 
+
+### Attack Description 
+
+After the attacker gains initial access, they must then use techniques to maintain it, as systems are unpredictable due to inevitable restarts, shutdowns, or credential changes. One way to ensure persistent access is by modifying the Registry keys that store the operating system's configuration settings. 
+
+### MITRE ATT&CK Mapping
+
+- T1547.014 - Active Setup
+  - Adds Registry key to Active Setup of the local machine, executed when the user logs in.
+- T1037.002 - Logout Hook
+  - Utilises a plist file as a pointer to a script and executes upon user logging out.
+- T1546.005 - Trap
+  - Executes malicious content when triggered by an interrupt signal.
+ 
+### Implementation
+
+- PowerShell Script: Creates new registry keys and points to malware.exe
+- Registry Editor: Contains all keys, including the added malicious ones
+- Living off the Land tactic: Uses legitimate Windows tools for easier execution
+- Masquerading: Disguised as authentic Windows system files, prolongs persistence
+
+## Phase 3: Privilege Escalation and Credential Access
+
+### Attack Description
+
+The attacker will escalate their privileges to gain greater access to the network. This will allow the adversary to gain access to employee and customer credentials that may be stored on the system. In the case of Co-Op and M&S, millions of people had active accounts with them, which included information such as their name, date of birth, home address, and online order history. Credit card details that were saved were also at risk of having been leaked. In this case scenario, patient and employee records will be the primary focus for access.
+
+### MITRE ATT&CK Mapping
+
+- T1068 - Exploitation for Privilege Escalation
+   - Software vulnerabilities are taken advantage of to achieve higher levels of access.
+- T1003.001 - LSASS Memory
+   - The Local Security Authority Subsystem Service is accessed, where data from a user login is stored.
+- T1555 - Credentials from Password Stores
+   - Mimikatz is manipulated to dump credentials for greater access to systems.
+- T1552.002 - Unsecured Credentials
+   - Insecurely stored passwords are searched through queries.
+
+### Privilege Escalation Vulnerability 
+
+- CVE-2023-366874 (7.8 score): In 2023, an exploitation was discovered in the privilege escalation reporting service. This allowed malicious actors to increase their access level in the system without raising any flags to other users, including the server administrators. This became a zero-day vulnerability and has been patched. However, it can still be used by those who have local access to the system, raising concerns for insider threats.
+
+### Implementation 
+
+- LSASS Dumping: The Local Security Authority Subsystem Service (LSASS) is responsible for authenticating users and managing credentials, allowing for smoother sign-in times for legitimate users. By using the task manager, credentials can be extracted from the system memory.
+- Mimikatz: This open-source application can be used to collect passwords in plaintext from memory and is commonly used by black-hat hackers and security professionals.
+- Registry: Extracted stored passwords from the registry through the Command Prompt.
+- Hash Extraction: Displayed the password hashes in the security account manager database.
+
+## Phase 4: Exploration and Lateral Movement
+
+### Attack Description
+
+By using the elevated credentials gained by the previous step, attackers are able to map a network and identify weak areas to gain access to assets. This allows for a broader surface to cause damage to, expanding from one M&S store, for example, to the whole national branch. This step proves to be more difficult for detection as there is a large quantity of traffic on any given network, and with the escalated credentials, there would be no bells of alarm ringing from any disguised malicious packet transports.
+This step has been enhanced by the use of AI, which has removed the need for communication back and forth with a user, removing any return address and creating a more airtight cover for the red-hat hacker. To train the AI, it can be provided a script outlining the targets it should prioritise to take over (see 'Target Prioritisation' below for more information).
+
+### Current AI Frameworks That Can Assist
+
+- BloodHound: Uses machine learning to analyse and prioritise attack paths based on the level of impact the attacker is seeking. Can be found for free on GitHub for anyone's use, whether an authorised penetration tester or malicious user: https://github.com/MorDavid/BloodHound-MCP-AI.git. 
+- DeepExploit: Adapts its vulnerability scanning and exploitation to what is most likely to succeed. Once again, this is a free and accessible project on GitHub https://github.com/TheDreamPort/deep_exploit.git.
+- MITRE CALDERA: Uses plugins to autonomously explore networks and escalate privileges. It can be found on GitHub for free https://github.com/mitre/caldera.git. 
+
+### MITRE ATT&CK Mapping
+
+- T1018 - Remote System Discovery
+   - Adversaries attempt to gain other systems' IP addresses, hostnames, or other logical identifiers.
+- T1558 - Steal or Forge Kerberos Tickets
+   - Using Mimikatz, the tickets can be stolen to enable a wider area of authentication through the Pass the Ticket attack.
+- T1423 - Network Service Scanning
+   - A list of services running on a host is created and examined for vulnerabilities to be used for exploitation.
+
+### Target Prioritisation 
+
+1. Domain Controllers - These devices house the Active Directory Database, which contains sensitive information about all user accounts connected to the network. By compromising this, red-hat hackers would be able to obtain hashed passwords to further their credential access, increasing the total area of damage.
+2. File Servers - The servers tend to contain valuable data worth stealing and usually have underlying weaknesses due to unpatched software, allowing for easy backdoor access. It can then serve as a leaping point to move around the network and start the encryption process when the ransomware is deployed.
+3. Database Servers - Accessed through the neglected security of the servers to gain sensitive data. This is also a target for Denial of Service attacks, as the cost for the unexpected downtime is astronomically high in some cases. For example, in the M&S and Co-Op situation, the downtime of the database led to empty shelves in stores as stocks could not be updated and renewed from the inaccessible database.
+4. Backup Systems - To ensure the attack meets the desired destruction of the adversary, these systems must be compromised to prevent speedy recovery and ensure the company will pay out in hopes of the key to unencrypting their data. 
+
+### Network Discovery Methods
+
+- Active Directory Enumeration: Queried Active Directory for user accounts, groups, and systems using PowerShell with elevated access achieved through Phase 3.
+- Network Scanning: Identified accessible systems and services using the open source tool: 'Nmap'.
+
+### Lateral Movement Methods
+
+- Pass-the-Hash: By using an extracted NTLM hash provided by Mimikatz from the previous step, the adversary can send the hash to another system remotely to gain authorisation without the need for plaintext passwords.
+
+## Phase 5: Collection and Exfiltration
+
+### Attack Description
+
+Before the final deployment of encrypting all data, attackers will collect and exfiltrate sensitive data, either to use as a financial resource to sell to other companies, to return to the company from which they stole it, or to leak it online and cause mass disruption. In the case study of the M&S and Co-op, personal information was stolen and leaked. This leads to a greater threat down the line with potential fraud and more attacks occurring. Not only does this harm the business's reputation and put its operation at risk of closure, but it also creates new potential targets to be used for later attacks, with access to their names, addresses, and birthdays.
+
+### MITRE ATT&CK Mapping
+
+- T1074.001 - Data Staged: Local Data Staging
+   - Collected data is combined into a central location for efficiency when completing exfiltration, decreasing the likelihood of being detected when moving information out of the system. 
+- T1560 - Archive Collected Data
+   - Adversary compresses and/or encrypts data before the exfiltration stage, minimising the amount being sent over the network, reducing the risk of detection.
+- T1001.002 - Data Obfuscation: Steganography
+   - Adversaries use steganographic techniques to hide command and control traffic and other valuable information within an image to avoid detection efforts.
+
+### Data Discovery
+
+- Sensitive File Identification: Located patient health records on the server. This information includes: full name, birthdate, and health insurance number of which can be used for fraud theft if leaked. 
+
+### Collection and Staging
+
+- Data Aggregation: Consolidates valuable files into staging directories for easier access and prepares for transfer out of the private network. It converts data into one consistent format and protocol interface.
+- Compression: Creates encrypted archives to reduce the transfer size of the discovered files, as it would be easier for information security to detect an issue with a larger packet transfer along the network. 
+
+### Exfiltration Methods
+
+- Steganography: Hides data within an image file to allow for a covert transfer from within the network to an outside server. It is done by replacing the least significant bit of each pixel to store a bit of the data, altering the image only slightly, which is not noticeable to the naked eye.
+
+## Phase 6: Impact and Ransomware Deployment
+
+## Attack Description
+
+This is the final stage of the ransomware attack, and it is where the malicious actors make themselves present to the company and to their customers through the use of encryption, service termination, and sometimes data leaks. This causes mass chaos, creating immense pressure on the business to decide how they are going to handle this situation, and many third parties back out due to this rupture in their reputation. The best advice is not to pay the criminals, as this only encourages the behaviour, does not guarantee data return, and will most likely cost millions more than it would have to recover the services. However, money will be lost no matter what path the company takes after this phase succeeds. In the case study, both M7S and Co-Op were unable to stock their shelves for weeks, and mobile apps for ordering were down for months, leading to an exceptional dip in revenue.
+
+## MITRE ATT&CK Mapping
+
+- T1486 - Data Encrypted for Impact
+   - Targeted system's files and resources are encrypted, and the decryption key is withheld to extract monetary compensation from the victim or to permanently damage the service.
+- T1490 - Inhibit System Recovery
+   - Adversaries will turn off services that aid in the recovery of corrupted systems, increasing the destruction of the attack.
+- T1491 - Defacement
+   - Malicious actors affect the integrity of the original content on the system for intimidation purposes and to claim credit for the intrusion.
+
+## Psychological Impact
+
+- Ransom Notes: Displays threatening messages on screens, an infamous example is the WannaCry screen saver. Its bright red background with two countdowns marking a price increase with one and a total data loss is not only eye-catching but powerful in sending a message.
+- Deadline Pressure: By including a countdown, stress and anxiety levels will increase. In this psychological state, rational decisions are increasingly difficult to make and can lead to severe mistakes, such as paying out the ransom.
+- Data Proof: Malicious actors may provide samples of stolen data either privately to the company or publicly to use as leverage.
+
+## Preperation
+
+- Security Disabling: Antivirus and security services are halted to allow the ransomware to take place, with no issue from any measures put in place by either the company or automatically configured by the hardware provider.
+- Shadow Copy Deletion: Removal of all Windows restore points to create further barriers in recovery.
+- Backup Destruction: Backup systems are deleted to ensure all terminated services cannot be recovered through any other means but by giving in to the ransom.
+
+## Ransomware Execution 
+
+- File Encryption: Important documents and databases are locked from access by official employees.
+- Key Management: Unique encryption keys are used per file type to decrease the likelihood of gaining access to the system without the malicious actors' help.
+- Ransom Note: A default warning screen to show that the system has been compromised to initiate the psychological impact on the employees. 
+
+
 # Conclusion
 
 There is a high importance for security nowadays, which has influenced today's software, as shown by the Windows infrastructure that was used. It contained a sophisticated virus protection, which impacted some attack manoeuvres negatively, which then had to be rectified by either taking a different avenue or shutting it down long enough to make it through. This was successful, which is an issue. A company cannot rely on the given firewalls and antivirus software to keep its systems safe. There needs to be a vast defence-in-depth as discussed through the suggested controls to prevent, detect, and correct any instance of malware. Adversaries are able to adapt to the present prevention methods, and if this remains unchanged, then holes will start to appear as malicious actors test the edges of the barrier to find a weak spot. This is what happened to Co-Op, M&S, and the recent Harrods case, which was caused by a supplier. These attacks require constant vigilance through training, auditing, and patching to keep sensitive data secure. To protect the evolving digital world, due diligence is a required skill for forensic investigators, security administrators, and general users to avoid setting off the initial domino in the attack sequence. 
